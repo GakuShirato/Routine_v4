@@ -1,0 +1,22 @@
+9.37
+
+myvenv\Scripts\activate
+
+python manage.py runserver
+
+
+path('', views.IndexView)
+
+def listTask(request):
+    queryset = task.objects.order_by('complete','due')
+    form = TaskForm()
+    if request.method =='POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('/')
+    context = {
+        'tasks':queryset,
+        'form':form,
+        }
+    return render(request, 'todo/list_task.html', context)
